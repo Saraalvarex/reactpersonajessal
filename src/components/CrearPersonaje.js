@@ -9,7 +9,7 @@ export default class CrearPersonaje extends Component {
     idperson = React.createRef();
     nom = React.createRef();
     srcimg = React.createRef();
-    // idserie = React.createRef();
+    serie = React.createRef();
     
     state = {
         mensaje: "",
@@ -25,19 +25,18 @@ export default class CrearPersonaje extends Component {
     //2) OBJETO JSON PARA EL API
     insertarPersonaje = (e)=> {
         e.preventDefault();
-        var request = "api/Personajes/"
+        var request = "api/personajes"
         var url = Global.url+request
-        var idpersonaje = this.idperson.current.value;
+        var idpersonaje = parseInt(this.idperson.current.value);
         var nombre = this.nom.current.value;
         var src = this.srcimg.current.value;
-        // var nomserie = this.idserie.current.value;
+        var idserie = parseInt(this.serie.current.value);
 
         var data = {
             idPersonaje: idpersonaje,
             nombre: nombre,
             imagen: src,
-            // idSerie: idserie
-            idSerie: 1
+            idSerie: idserie
         }
         console.log(data)
         
@@ -67,8 +66,8 @@ export default class CrearPersonaje extends Component {
 
   render() {
       if(this.state.status==true){
-        // return(<Navigate to={"/personajes/"+data.idSerie}/>)
-        console.log("INSERTADO")
+        // return(<Navigate to={"/home/"}/>)
+        console.log("insertado")
       }
     return (
         <div>
@@ -93,10 +92,10 @@ export default class CrearPersonaje extends Component {
           defaultValue=""
         />
         <br></br>
-        <select className="form-select">
+        <select  ref={this.serie} className="form-select">
               {
                 this.state.series.map((serie, index) => {
-                  return (<option ref={this.nomserie} key={serie.idSerie}>
+                  return (<option value={serie.idSerie} key={index}>
                     {serie.nombre}
                     </option>)
                 })

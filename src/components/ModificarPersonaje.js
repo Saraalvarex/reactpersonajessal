@@ -19,7 +19,6 @@ export default class ModificarPersonaje extends Component {
       var request = "/api/series/"
       var url = Global.url+request;
       axios.get(url).then(res=>{
-          console.log(res.data)
           this.setState({
               series: res.data
           })
@@ -30,7 +29,6 @@ export default class ModificarPersonaje extends Component {
       var request = "/api/personajes/"
       var url = Global.url+request;
       axios.get(url).then(res=>{
-          console.log(res.data)
           this.setState({
               personajes: res.data
           })
@@ -43,10 +41,10 @@ export default class ModificarPersonaje extends Component {
     // var idpersonaje = this.props.idp
     // var idserie = this.props.ids
     //AQUI SACO TEXTO NO NUMBER
-       var idpersonaje = this.idapuesta.current.value;
-       var idserie = this.usuario.current.value;
+       var idpersonaje = this.selectpersonaje.current.value;
+       var idserie = this.selectserie.current.value;
 
-       var request = "/api/Personajes/"+idpersonaje+idserie
+       var request = "/api/Personajes/"+idpersonaje+"/"+idserie
        var url = Global.url+request
        axios.put(url).then(res=> {
             this.setState({
@@ -62,26 +60,27 @@ export default class ModificarPersonaje extends Component {
 
   render() {
     if (this.state.statusPut==true){
-        return (<Navigate to={"/"}/>)
+        // return (<Navigate to={"/"}/>)
+        console.log("Modificado")
       }
     return (
       <div>
           <form className="">
           <label>Seleccione una serie</label>
-          <select className="form-select">
+          <select ref={this.selectserie} className="form-select">
           {
                 this.state.series.map((serie, index) => {
-                  return (<option ref={this.nomserie} key={serie.idserie}>
+                  return (<option value={serie.idSerie} key={index}>
                     {serie.nombre}
                     </option>)
                 })
               }
               </select>
          <label>Seleccione un personaje</label>
-         <select className="form-select">
+         <select ref={this.selectpersonaje} className="form-select">
               {
                 this.state.personajes.map((personaje, index) => {
-                  return (<option ref={this.nomserie} key={personaje.idPersonaje}>
+                  return (<option value={personaje.idPersonaje} key={index}>
                     {personaje.nombre}
                     </option>)
                 })
