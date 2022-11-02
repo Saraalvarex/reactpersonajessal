@@ -9,7 +9,7 @@ export default class CrearPersonaje extends Component {
     idperson = React.createRef();
     nom = React.createRef();
     srcimg = React.createRef();
-    idserie = React.createRef();
+    // idserie = React.createRef();
     
     state = {
         mensaje: "",
@@ -27,18 +27,20 @@ export default class CrearPersonaje extends Component {
         e.preventDefault();
         var request = "api/Personajes/"
         var url = Global.url+request
-        var idpersonaje = parseInt(this.idperson.current.value);
+        var idpersonaje = this.idperson.current.value;
         var nombre = this.nom.current.value;
         var src = this.srcimg.current.value;
-        var idserie = this.idserie.current.value;
-        console.log(idserie)
+        // var nomserie = this.idserie.current.value;
+
         var data = {
             idPersonaje: idpersonaje,
             nombre: nombre,
             imagen: src,
-            idSerie: idserie
+            // idSerie: idserie
+            idSerie: 1
         }
-
+        console.log(data)
+        
         axios.post(url, data).then(res=>{
             this.setState({
                 mensaje: "Insertado!",
@@ -94,7 +96,7 @@ export default class CrearPersonaje extends Component {
         <select className="form-select">
               {
                 this.state.series.map((serie, index) => {
-                  return (<option ref={this.idserie} value={serie.idSerie} key={serie.idSerie}>
+                  return (<option ref={this.nomserie} key={serie.idSerie}>
                     {serie.nombre}
                     </option>)
                 })

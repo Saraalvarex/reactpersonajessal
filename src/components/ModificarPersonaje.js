@@ -5,50 +5,50 @@ import { Navigate } from 'react-router-dom';
 // /api/Personajes/{idpersonaje}/{idserie}
 // Tendremos la posibilidad de cambiar a un personaje de serie:
 export default class ModificarPersonaje extends Component {
-    idapuesta = React.createRef();
-    usuario = React.createRef();
-    resultado = React.createRef();
-    fecha = React.createRef();
+    selectpersonaje = React.createRef();
+    selectserie = React.createRef();
 
     state = {
         statusGet: false,
         statusPut: false,
-        personaje: {}
+        personajes: [],
+        series: []
     }
 
-    cargarInputs = () => {
-        var idpersonaje = this.props.idp
-        var idserie = this.props.ids
-        var request = "/api/Personajes/"+idpersonaje+idserie
-        var url = Global.url+request
-        axios.get(url).then(res=>{
-            this.setState({
-                statusGet: true,
-                apuesta: res.data
-            });
-        });
-    }
+    cargarSeries = () => {
+      var request = "/api/series/"
+      var url = Global.url+request;
+      axios.get(url).then(res=>{
+          console.log(res.data)
+          this.setState({
+              series: res.data
+          })
+      })
+  }
+
+    cargarPersonajes = () => {
+      var request = "/api/personajes/"
+      var url = Global.url+request;
+      axios.get(url).then(res=>{
+          console.log(res.data)
+          this.setState({
+              personajes: res.data
+          })
+      })
+  }
+
 
     modificarPersonaje = (e) =>{
     e.preventDefault();
-    var idpersonaje = this.props.idp
-    var idserie = this.props.ids
-    var request = "/api/Personajes/"+idpersonaje+idserie
-    var url = Global.url+request
-    
-       var idap = this.idapuesta.current.value;
-       var user = this.usuario.current.value;
-       var resu = this.resultado.current.value;
-       var fecha = this.fecha.current.value;
+    // var idpersonaje = this.props.idp
+    // var idserie = this.props.ids
+    //AQUI SACO TEXTO NO NUMBER
+       var idpersonaje = this.idapuesta.current.value;
+       var idserie = this.usuario.current.value;
 
-       var data = {
-            idApuesta: idap,
-            usuario: user,
-            resultado: resu,
-            fecha: fecha
-       }
-       
-       axios.put(url, data).then(res=> {
+       var request = "/api/Personajes/"+idpersonaje+idserie
+       var url = Global.url+request
+       axios.put(url).then(res=> {
             this.setState({
                 statusPut: true
             })
@@ -56,28 +56,37 @@ export default class ModificarPersonaje extends Component {
     }
 
     componentDidMount = () => {
-        this.cargarInputs()
+        this.cargarSeries()
+        this.cargarPersonajes()
     }
+
   render() {
     if (this.state.statusPut==true){
-        return (<Navigate to={"/personajes/"+this.props.ids}/>)
+        return (<Navigate to={"/"}/>)
       }
     return (
       <div>
           <form className="">
           <label>Seleccione una serie</label>
-          <input
-            ref={this.idapuesta}
-            type="number"
-            className="form-control"
-            defaultValue={this.state.apuesta.idApuesta}
-          disabled/>
+          <select className="form-select">
+          {
+                this.state.series.map((serie, index) => {
+                  return (<option ref={this.nomserie} key={serie.idserie}>
+                    {serie.nombre}
+                    </option>)
+                })
+              }
+              </select>
          <label>Seleccione un personaje</label>
-          <input
-            ref={this.usuario}
-            className="form-control"
-            defaultValue={this.state.apuesta.usuario}
-          />
+         <select className="form-select">
+              {
+                this.state.personajes.map((personaje, index) => {
+                  return (<option ref={this.nomserie} key={personaje.idPersonaje}>
+                    {personaje.nombre}
+                    </option>)
+                })
+              }
+            </select>
           <hr></hr>
           <button className='btn btn-info' onClick={this.modificarPersonaje}>
                 Guardar cambios

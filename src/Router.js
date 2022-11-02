@@ -22,11 +22,6 @@ export default class Router extends Component {
       return(<Personajes id={idserie}></Personajes>)
     }
 
-    // function ModificarPersonajeElement() {
-    //   var {idserie, idpersonaje} = useParams();
-    //   return(<ModificarPersonaje ids={idserie} idp={idpersonaje}></ModificarPersonaje>)
-    // }
-
     return (
       <BrowserRouter>
         <MenuRutas/>
