@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Global from '../Global'
 import axios from 'axios'
 import { Navigate } from 'react-router-dom';
+import { data } from 'jquery';
 // /api/Personajes/{idpersonaje}/{idserie}
 // Tendremos la posibilidad de cambiar a un personaje de serie:
 export default class ModificarPersonaje extends Component {
@@ -60,8 +61,7 @@ export default class ModificarPersonaje extends Component {
 
   render() {
     if (this.state.statusPut==true){
-        // return (<Navigate to={"/"}/>)
-        console.log("Modificado")
+        return (<Navigate to={"/personajes/"+this.selectserie.current.value}/>)
       }
     return (
       <div>

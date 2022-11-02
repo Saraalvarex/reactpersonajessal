@@ -66,8 +66,7 @@ export default class CrearPersonaje extends Component {
 
   render() {
       if(this.state.status==true){
-        // return(<Navigate to={"/home/"}/>)
-        console.log("insertado")
+        return (<Navigate to={"/personajes/"+this.serie.current.value}/>)
       }
     return (
         <div>
